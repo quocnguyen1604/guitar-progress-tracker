@@ -1,17 +1,24 @@
 import SongListItem from "./SongListItem";
 
-type SongListItemProps = {
+type Song = {
   title: string;
   artist: string;
 };
 
-export default function SongList({ songs }: { songs: SongListItemProps[] }) {
+type SongListProps = {
+  songs: Song[];
+  onSelectSong: (song: Song) => void;
+};
+
+export default function SongList({ songs, onSelectSong }: SongListProps) {
   return (
     <div>
-      <h2>Song List</h2>
-      <p>This is where the list of songs will be displayed.</p>
       {songs.map((song) => (
-        <SongListItem key={song.title} song={song} />
+        <SongListItem
+          key={song.title}
+          song={song}
+          onClick={() => onSelectSong(song)}
+        />
       ))}
     </div>
   );
