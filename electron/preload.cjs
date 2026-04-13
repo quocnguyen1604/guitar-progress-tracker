@@ -5,4 +5,13 @@ const api = {
   openAddSongWindow: () => ipcRenderer.invoke("window:open-add-song-window"),
 };
 
+const songApi = {
+  getAllSongs: () => ipcRenderer.invoke("songs:get-all-songs"),
+  addSong: (songData) => ipcRenderer.invoke("songs:add", songData),
+  updateSong: (id, songData) =>
+    ipcRenderer.invoke("songs:update", id, songData),
+  deleteSong: (id) => ipcRenderer.invoke("songs:delete", id),
+};
+
 contextBridge.exposeInMainWorld("appApi", api);
+contextBridge.exposeInMainWorld("songApi", songApi);

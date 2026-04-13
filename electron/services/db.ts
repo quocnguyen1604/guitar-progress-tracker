@@ -55,3 +55,10 @@ export function getDatabase(): SqliteDatabase {
 
   return dbInstance;
 }
+
+export function resetDatabaseForTests(): void {
+  if (dbInstance) {
+    dbInstance.close();
+    dbInstance = null;
+  }
+}

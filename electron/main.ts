@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain } from "electron";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { initializeDatabase } from "./services/db.js";
+import { registerSongIPC } from "./ipc/songs.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,6 +37,7 @@ function createMainWindow() {
 
 app.whenReady().then(() => {
   initializeDatabase(app.getPath("userData"));
+  registerSongIPC();
 
   ipcMain.handle("app:get-status", () => {
     return {
