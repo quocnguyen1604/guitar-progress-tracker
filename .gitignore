@@ -11,6 +11,16 @@ node_modules
 dist
 dist-ssr
 *.local
+dist-electron/
+guitar-progress-tracker/
+.test-data/
+coverage/
+*.tsbuildinfo
+
+# SQLite runtime/test files
+*.db
+*.db-shm
+*.db-wal
 
 # Editor directories and files
 .vscode/*
