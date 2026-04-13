@@ -4,9 +4,10 @@ import { fileURLToPath } from "node:url";
 import { initializeDatabase } from "./services/db.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+let mainWindow = null;
 function createMainWindow() {
     const preloadPath = path.join(__dirname, "../../electron/preload.cjs");
-    const window = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         width: 1200,
         height: 760,
         minWidth: 980,
@@ -19,11 +20,11 @@ function createMainWindow() {
     });
     const devServerUrl = process.env.VITE_DEV_SERVER_URL;
     if (devServerUrl) {
-        void window.loadURL(devServerUrl);
-        window.webContents.openDevTools({ mode: "detach" });
+        void mainWindow.loadURL(devServerUrl);
+        mainWindow.webContents.openDevTools({ mode: "detach" });
         return;
     }
-    void window.loadFile(path.join(__dirname, "../../dist/index.html"));
+    void mainWindow.loadFile(path.join(__dirname, "../../dist/index.html"));
 }
 app.whenReady().then(() => {
     initializeDatabase(app.getPath("userData"));
@@ -34,6 +35,29 @@ app.whenReady().then(() => {
             node: process.versions.node,
             chrome: process.versions.chrome,
         };
+    });
+    ipcMain.handle("window:open-add-song-window", async () => {
+        if (!mainWindow)
+            return;
+        const addSongWindow = new BrowserWindow({
+            width: 400,
+            height: 600,
+            parent: mainWindow,
+            modal: true,
+            minimizable: false,
+            maximizable: false,
+            webPreferences: {
+                preload: path.join(__dirname, "../../electron/preload.cjs"),
+                contextIsolation: true,
+                nodeIntegration: false,
+            },
+        });
+        const devServerUrl = process.env.VITE_DEV_SERVER_URL;
+        if (devServerUrl) {
+            await addSongWindow.loadURL(`${devServerUrl}#/add-song`);
+            addSongWindow.webContents.openDevTools({ mode: "detach" });
+            return;
+        }
     });
     createMainWindow();
     app.on("activate", () => {

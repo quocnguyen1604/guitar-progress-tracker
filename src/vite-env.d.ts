@@ -9,6 +9,7 @@ declare global {
         node: string;
         chrome: string;
       }>;
+      openAddSongWindow: () => Promise<void>;
     };
   }
 }
