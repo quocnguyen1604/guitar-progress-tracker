@@ -20,25 +20,25 @@ describe("Song Service", () => {
   });
 
   it("should create a song", () => {
-    const result = createSong({
+    const [ok] = createSong({
       title: "Awakening",
       artist: "Ichika Nito",
       targetBpm: 180,
       currentPracticeBpm: 100,
       progress: 0,
     });
-    expect(result).toBe(true);
+    expect(ok).toBe(true);
     expect(getAllSongs()).toHaveLength(1);
   });
 
   it("should not create a song with invalid input", () => {
-    const result = createSong({
+    const [ok] = createSong({
       title: "",
       targetBpm: -120,
       currentPracticeBpm: 0,
       progress: 150,
     } as any);
-    expect(result).toBe(false);
+    expect(ok).toBe(false);
     expect(getAllSongs()).toHaveLength(1);
   });
 

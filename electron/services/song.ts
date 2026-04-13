@@ -50,15 +50,18 @@ function checkIfSongExists(id: string): boolean {
   return result.count > 0;
 }
 
-export function createSong(input: AddSongInput): boolean {
+export function createSong(
+  input: AddSongInput,
+  songId?: string,
+): [boolean, string] {
   const parsed = songInputSchema.safeParse(input);
   if (!parsed.success) {
     console.error("Invalid song input:", parsed.error);
-    return false;
+    return [false, "Invalid song input"];
   }
   const data = parsed.data;
   const db = getDatabase();
-  const id = crypto.randomUUID();
+  const id = songId ?? crypto.randomUUID();
   db.prepare(
     `
     INSERT INTO songs (
@@ -83,7 +86,7 @@ export function createSong(input: AddSongInput): boolean {
     Date.now(),
   ]);
 
-  return checkIfSongExists(id);
+  return [checkIfSongExists(id), id];
 }
 
 export function getAllSongs(): Song[] {

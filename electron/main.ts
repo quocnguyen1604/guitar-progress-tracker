@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, Menu } from "electron";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { initializeDatabase } from "./services/db.js";
@@ -8,6 +8,34 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 let mainWindow: BrowserWindow | null = null;
+let discordSettingsWindow: BrowserWindow | null = null;
+
+async function openDiscordSettingsWindow() {
+  if (discordSettingsWindow) {
+    discordSettingsWindow.focus();
+    return;
+  }
+  discordSettingsWindow = new BrowserWindow({
+    width: 400,
+    height: 500,
+    parent: mainWindow || undefined,
+    modal: true,
+    minimizable: false,
+    maximizable: false,
+    webPreferences: {
+      preload: path.join(__dirname, "../../electron/preload.cjs"),
+      contextIsolation: true,
+      nodeIntegration: false,
+    },
+  });
+
+  const devServerUrl = process.env.VITE_DEV_SERVER_URL;
+  if (devServerUrl) {
+    await discordSettingsWindow.loadURL(`${devServerUrl}#/discord-settings`);
+    discordSettingsWindow.webContents.openDevTools({ mode: "detach" });
+    return;
+  }
+}
 
 function createMainWindow() {
   const preloadPath = path.join(__dirname, "../../electron/preload.cjs");
@@ -34,6 +62,23 @@ function createMainWindow() {
 
   void mainWindow.loadFile(path.join(__dirname, "../../dist/index.html"));
 }
+
+const menuTemplate = [
+  { role: "fileMenu" },
+  { role: "editMenu" },
+  { role: "viewMenu" },
+  {
+    label: "Discord",
+    submenu: [
+      {
+        label: "Rich Presence Settings",
+        click: () => void openDiscordSettingsWindow(),
+      },
+    ],
+  },
+  { role: "windowMenu" },
+  { role: "helpMenu" },
+];
 
 app.whenReady().then(() => {
   initializeDatabase(app.getPath("userData"));

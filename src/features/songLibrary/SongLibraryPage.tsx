@@ -5,7 +5,7 @@ import type { Song } from "../../shared/types/song";
 
 export default function SongLibraryPage() {
   const [songs, setSongs] = useState<Song[]>([]);
-  const [selectedSong, setSelectedSong] = useState<Song | null>(null);
+  const [selectedSongId, setSelectedSongId] = useState<string | null>(null);
   useEffect(() => {
     const fetchSongs = async () => {
       try {
@@ -27,12 +27,14 @@ export default function SongLibraryPage() {
     await window.appApi.openAddSongWindow();
   };
 
+  const selectedSong = songs.find((song) => song.id === selectedSongId) || null;
+
   return (
     <section className="song-library-layout">
       <aside className="song-list-panel">
         <h2>Song Library</h2>
         <button onClick={handleOpenAddSongWindow}>Add Song</button>
-        <SongList songs={songs} onSelectSong={setSelectedSong} />
+        <SongList songs={songs} onSelectSong={setSelectedSongId} />
       </aside>
 
       <main className="song-detail-panel">

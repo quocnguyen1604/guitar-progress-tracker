@@ -7,7 +7,8 @@ const api = {
 
 const songApi = {
   getAllSongs: () => ipcRenderer.invoke("songs:get-all-songs"),
-  addSong: (songData) => ipcRenderer.invoke("songs:add", songData),
+  addSong: (songData, thumbnailUpload) =>
+    ipcRenderer.invoke("songs:add", songData, thumbnailUpload),
   updateSong: (id, songData) =>
     ipcRenderer.invoke("songs:update", id, songData),
   deleteSong: (id) => ipcRenderer.invoke("songs:delete", id),

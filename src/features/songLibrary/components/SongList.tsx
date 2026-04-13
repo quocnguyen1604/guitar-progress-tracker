@@ -3,7 +3,7 @@ import type { Song } from "../../../shared/types/song";
 
 type SongListProps = {
   songs: Song[];
-  onSelectSong: (song: Song) => void;
+  onSelectSong: (song: string) => void;
 };
 
 export default function SongList({ songs, onSelectSong }: SongListProps) {
@@ -11,9 +11,9 @@ export default function SongList({ songs, onSelectSong }: SongListProps) {
     <div>
       {songs.map((song) => (
         <SongListItem
-          key={song.title}
+          key={song.id}
           song={song}
-          onClick={() => onSelectSong(song)}
+          onClick={() => onSelectSong(song.id)}
         />
       ))}
     </div>
