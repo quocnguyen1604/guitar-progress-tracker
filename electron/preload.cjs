@@ -11,6 +11,15 @@ const songApi = {
   updateSong: (id, songData) =>
     ipcRenderer.invoke("songs:update", id, songData),
   deleteSong: (id) => ipcRenderer.invoke("songs:delete", id),
+  onSongListUpdated: (callback) => {
+    const listener = () => callback();
+    ipcRenderer.on("songs:song-list-updated", listener);
+    const unsubscribe = () => {
+      ipcRenderer.removeListener("songs:song-list-updated", listener);
+    };
+
+    return unsubscribe;
+  },
 };
 
 contextBridge.exposeInMainWorld("appApi", api);

@@ -1,9 +1,5 @@
 import SongListItem from "./SongListItem";
-
-type Song = {
-  title: string;
-  artist: string;
-};
+import type { Song } from "../../../shared/types/song";
 
 type SongListProps = {
   songs: Song[];

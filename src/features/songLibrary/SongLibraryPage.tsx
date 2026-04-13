@@ -1,19 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SongList from "./components/SongList";
 import SongDetails from "./components/SongDetails";
-
-type Song = {
-  title: string;
-  artist: string;
-};
+import type { Song } from "../../shared/types/song";
 
 export default function SongLibraryPage() {
+  const [songs, setSongs] = useState<Song[]>([]);
   const [selectedSong, setSelectedSong] = useState<Song | null>(null);
-  const songs = [
-    { title: "Awakening", artist: "Ichika Nito" },
-    { title: "Illusory Sense", artist: "Ichika Nito" },
-    { title: "He Waits Patiently", artist: "Ichika Nito" },
-  ];
+  useEffect(() => {
+    const fetchSongs = async () => {
+      try {
+        const songs = await window.songApi.getAllSongs();
+        setSongs(songs);
+      } catch (error) {
+        console.error("Failed to fetch songs:", error);
+      }
+    };
+
+    fetchSongs();
+    const unsubscribe = window.songApi.onSongListUpdated(() => {
+      void fetchSongs();
+    });
+    return () => unsubscribe();
+  }, []);
 
   const handleOpenAddSongWindow = async () => {
     await window.appApi.openAddSongWindow();

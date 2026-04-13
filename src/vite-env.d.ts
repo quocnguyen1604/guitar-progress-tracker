@@ -19,6 +19,7 @@ declare global {
       getAllSongs: () => Promise<Song[]>;
       updateSong: (id: string, songData: UpdateSongInput) => Promise<boolean>;
       deleteSong: (id: string) => Promise<boolean>;
+      onSongListUpdated: (callback: () => void) => () => void;
     };
   }
 }
