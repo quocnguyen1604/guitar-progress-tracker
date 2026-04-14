@@ -1,77 +1,59 @@
 # Guitar Progress Tracker
 
-Desktop app foundation for a local-first guitar song tracker with Discord Rich Presence.
+Guitar Progress Tracker is a Windows desktop app for organizing songs, tracking practice progress, and optionally showing your current activity on Discord.
 
-## Stack
+## Why Use It
 
-- Electron (main process + preload bridge)
-- React + Vite (renderer)
-- TypeScript
-- SQLite (`better-sqlite3`)
-- Discord RPC (`discord-rpc`)
+- Keep a personal song library in one place
+- Track practice goals and progress over time
+- Store useful links, notes, and references per song
+- Set and update song thumbnails for quick visual scanning
+- Show active practice status on Discord (optional)
 
-## Project Layout
+## Screenshot
 
-```text
-electron/
-  main.ts
-  preload.ts
-src/
-  App.tsx
-  main.tsx
-  shared/
-    types/
-tsconfig.electron.json
-```
+![Guitar Progress Tracker main window](docs/images/songLibScreenshot.png)
 
-## Setup
+## Main Features
 
-Install dependencies:
+- Song management: add, edit, and delete songs
+- Practice tracking: progress percent, target BPM, current BPM
+- Notes and links: keep tabs/recordings/resources attached to songs
+- Thumbnail workflow: upload, preview, and update images
+- Discord integration: configure app ID and activity update interval
 
-```bash
-npm install
-```
+## Install (Windows)
 
-Run the desktop app in development:
+1. Go to the GitHub Releases page for this project.
+2. Download the latest installer file ending in `.exe`.
+3. Run the installer and follow the setup steps.
+4. Launch Guitar Progress Tracker from Start Menu or desktop shortcut.
 
-```bash
-npm run dev
-```
+## Quick Start
 
-This starts:
+1. Open the app.
+2. Add your first song from the Add Song flow.
+3. Fill in progress/BPM/notes as you practice.
+4. Open Discord settings in the app if you want presence updates.
 
-- Vite dev server for the renderer
-- TypeScript build for Electron main/preload
-- Electron app window pointed at the Vite URL
+## Data and Privacy
 
-## Build Commands
+- Your song data is stored locally on your machine.
+- The app does not require cloud sync.
+- Discord features are optional and only used when configured.
 
-Build renderer only:
+## Troubleshooting
 
-```bash
-npm run build
-```
+If the app opens with a blank window:
 
-Build Electron only:
+1. Use the latest installer build from Releases.
+2. Reinstall over the existing version.
+3. If issue persists, open an issue with your app version and steps to reproduce.
 
-```bash
-npm run build:electron
-```
+## For Developers
 
-Build both:
+Development setup, scripts, packaging flow, and release steps are documented in [docs/DEVELOPMENT.md](docs/DEV.md).
 
-```bash
-npm run build:app
-```
+## License
 
-Run built Electron app:
-
-```bash
-npm run start
-```
-
-## Next Implementation Targets
-
-1. Add SQLite schema and song CRUD IPC handlers.
-2. Build song library UI and song editor form.
-3. Add Discord Rich Presence service with idle status.
+This project is licensed under MIT. See [LICENSE](LICENSE).
