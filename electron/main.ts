@@ -1,8 +1,10 @@
 import { app, BrowserWindow, ipcMain, Menu } from "electron";
+import type { MenuItemConstructorOptions } from "electron";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { initializeDatabase } from "./services/db.js";
-import { registerSongIPC } from "./ipc/songs.js";
+import { registerSongIPC } from "./ipc/songIpc.js";
+import { registerDiscordIPC } from "./ipc/discordIpc.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,7 +13,7 @@ let mainWindow: BrowserWindow | null = null;
 let discordSettingsWindow: BrowserWindow | null = null;
 
 async function openDiscordSettingsWindow() {
-  if (discordSettingsWindow) {
+  if (discordSettingsWindow && !discordSettingsWindow.isDestroyed()) {
     discordSettingsWindow.focus();
     return;
   }
@@ -27,6 +29,10 @@ async function openDiscordSettingsWindow() {
       contextIsolation: true,
       nodeIntegration: false,
     },
+  });
+
+  discordSettingsWindow.on("closed", () => {
+    discordSettingsWindow = null;
   });
 
   const devServerUrl = process.env.VITE_DEV_SERVER_URL;
@@ -63,7 +69,7 @@ function createMainWindow() {
   void mainWindow.loadFile(path.join(__dirname, "../../dist/index.html"));
 }
 
-const menuTemplate = [
+const menuTemplate: MenuItemConstructorOptions[] = [
   { role: "fileMenu" },
   { role: "editMenu" },
   { role: "viewMenu" },
@@ -77,12 +83,16 @@ const menuTemplate = [
     ],
   },
   { role: "windowMenu" },
-  { role: "helpMenu" },
+  { role: "help" },
 ];
+
+const menu = Menu.buildFromTemplate(menuTemplate);
+Menu.setApplicationMenu(menu);
 
 app.whenReady().then(() => {
   initializeDatabase(app.getPath("userData"));
   registerSongIPC();
+  registerDiscordIPC();
 
   ipcMain.handle("app:get-status", () => {
     return {

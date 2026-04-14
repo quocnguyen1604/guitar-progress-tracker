@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import SongLibraryPage from "./features/songLibrary/SongLibraryPage";
 import AddSongPage from "./features/songLibrary/addSong/AddSongPage";
+import DiscordSettingPages from "./features/discord/discordSettingPages";
 import "./App.css";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<Navigate to="/song-library" replace />} />
           <Route path="/song-library" element={<SongLibraryPage />} />
           <Route path="/add-song" element={<AddSongPage />} />
+          <Route path="/discord-settings" element={<DiscordSettingPages />} />
         </Routes>
       </div>
     </Router>
