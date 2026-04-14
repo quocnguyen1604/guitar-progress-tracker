@@ -1,4 +1,6 @@
 import type { Song } from "../../../shared/types/song";
+import styles from "./SongDetails.module.css";
+import uiStyles from "../../../shared/styles/ui.module.css";
 
 type SongDetailsProp = {
   song: Song;
@@ -10,10 +12,10 @@ export default function SongDetailsView({
   setIsEditing,
 }: SongDetailsProp) {
   return (
-    <div>
-      <h2>{song.title}</h2>
-      <p>{song.artist}</p>
-      <p>
+    <div className={styles.card}>
+      <h2 className={styles.title}>{song.title}</h2>
+      <p className={styles.subtitle}>{song.artist}</p>
+      <p className={styles.meta}>
         Added on:{" "}
         {new Date(song.createdAt).toLocaleString(undefined, {
           year: "numeric",
@@ -25,7 +27,7 @@ export default function SongDetailsView({
           hour12: false,
         })}
       </p>
-      <p>
+      <p className={styles.meta}>
         Last updated:{" "}
         {new Date(song.updatedAt).toLocaleString(undefined, {
           year: "numeric",
@@ -37,11 +39,17 @@ export default function SongDetailsView({
           hour12: false,
         })}
       </p>
-      <p>Target BPM: {song.targetBpm}</p>
-      <p>Current Practice BPM: {song.currentPracticeBpm}</p>
-      <p>Progress: {song.progress}%</p>
-      {song.notes && <p>Notes: {song.notes}</p>}
-      <button onClick={() => setIsEditing(true)}>Edit</button>
+      <p className={styles.metric}>Target BPM: {song.targetBpm}</p>
+      <p className={styles.metric}>
+        Current Practice BPM: {song.currentPracticeBpm}
+      </p>
+      <p className={styles.metric}>Progress: {song.progress}%</p>
+      {song.notes && <p className={styles.metric}>Notes: {song.notes}</p>}
+      <div className={styles.actions}>
+        <button className={uiStyles.button} onClick={() => setIsEditing(true)}>
+          Edit
+        </button>
+      </div>
     </div>
   );
 }

@@ -3,6 +3,8 @@ import { songInputSchema } from "../../../../shared/validation/songSchema";
 import type { SongInput } from "../../../../shared/validation/songSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useState, useEffect } from "react";
+import styles from "./AddSongForm.module.css";
+import uiStyles from "../../../../shared/styles/ui.module.css";
 
 type ThumbnailUpload = {
   bytes: Uint8Array;
@@ -150,8 +152,12 @@ export default function AddSongForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <button type="button" onClick={openImagePicker}>
+    <form onSubmit={handleSubmit(onSubmit)} className={uiStyles.form}>
+      <button
+        className={uiStyles.button}
+        type="button"
+        onClick={openImagePicker}
+      >
         Choose Thumbnail
       </button>
       <input
@@ -159,88 +165,131 @@ export default function AddSongForm() {
         type="file"
         accept="image/png,image/jpeg"
         multiple={false}
-        style={{ display: "none" }}
+        className={styles.hiddenFileInput}
         onChange={onThumbNailChange}
       />
 
       {previewUrl && (
-        <div className="thumb-preview">
-          <img src={previewUrl} alt="Thumbnail preview" />
+        <div className={styles.previewWrap}>
+          <img
+            className={styles.previewImage}
+            src={previewUrl}
+            alt="Thumbnail preview"
+          />
         </div>
       )}
-      <div>
-        <label>Title:</label>
-        <input placeholder="Title" {...register("title")} />
-        {formState.errors.title && (
-          <p style={{ color: "red" }}>{formState.errors.title.message}</p>
-        )}
-      </div>
-      <div>
-        <label>Artist:</label>
-        <input placeholder="Artist" {...register("artist")} />
-        {formState.errors.artist && (
-          <p style={{ color: "red" }}>{formState.errors.artist.message}</p>
-        )}
-      </div>
-      <div>
-        <label>Song link:</label>
-        <input placeholder="Song link" {...register("songLink")} />
-        {formState.errors.songLink && (
-          <p style={{ color: "red" }}>{formState.errors.songLink.message}</p>
-        )}
-      </div>
-      <div>
-        <label>Tab link:</label>
-        <input placeholder="Tab link" {...register("tabLink")} />
-        {formState.errors.tabLink && (
-          <p style={{ color: "red" }}>{formState.errors.tabLink.message}</p>
-        )}
-      </div>
-      <div>
-        <label>Target BPM:</label>
+      <div className={uiStyles.field}>
+        <label className={uiStyles.label}>Title:</label>
         <input
+          className={uiStyles.input}
+          placeholder="Title"
+          {...register("title")}
+        />
+        {formState.errors.title && (
+          <p className={uiStyles.errorText}>{formState.errors.title.message}</p>
+        )}
+      </div>
+      <div className={uiStyles.field}>
+        <label className={uiStyles.label}>Artist:</label>
+        <input
+          className={uiStyles.input}
+          placeholder="Artist"
+          {...register("artist")}
+        />
+        {formState.errors.artist && (
+          <p className={uiStyles.errorText}>
+            {formState.errors.artist.message}
+          </p>
+        )}
+      </div>
+      <div className={uiStyles.field}>
+        <label className={uiStyles.label}>Song link:</label>
+        <input
+          className={uiStyles.input}
+          placeholder="Song link"
+          {...register("songLink")}
+        />
+        {formState.errors.songLink && (
+          <p className={uiStyles.errorText}>
+            {formState.errors.songLink.message}
+          </p>
+        )}
+      </div>
+      <div className={uiStyles.field}>
+        <label className={uiStyles.label}>Tab link:</label>
+        <input
+          className={uiStyles.input}
+          placeholder="Tab link"
+          {...register("tabLink")}
+        />
+        {formState.errors.tabLink && (
+          <p className={uiStyles.errorText}>
+            {formState.errors.tabLink.message}
+          </p>
+        )}
+      </div>
+      <div className={uiStyles.field}>
+        <label className={uiStyles.label}>Target BPM:</label>
+        <input
+          className={uiStyles.input}
           type="number"
           placeholder="Target BPM"
           {...register("targetBpm", { valueAsNumber: true })}
         />
         {formState.errors.targetBpm && (
-          <p style={{ color: "red" }}>{formState.errors.targetBpm.message}</p>
+          <p className={uiStyles.errorText}>
+            {formState.errors.targetBpm.message}
+          </p>
         )}
       </div>
-      <div>
-        <label>Current Practice BPM:</label>
+      <div className={uiStyles.field}>
+        <label className={uiStyles.label}>Current Practice BPM:</label>
         <input
+          className={uiStyles.input}
           type="number"
           placeholder="Current Practice BPM"
           {...register("currentPracticeBpm", { valueAsNumber: true })}
         />
         {formState.errors.currentPracticeBpm && (
-          <p style={{ color: "red" }}>
+          <p className={uiStyles.errorText}>
             {formState.errors.currentPracticeBpm.message}
           </p>
         )}
       </div>
-      <div>
-        <label>Progress:</label>
+      <div className={uiStyles.field}>
+        <label className={uiStyles.label}>Progress:</label>
         <input
+          className={uiStyles.input}
           type="number"
           placeholder="Progress"
           {...register("progress", { valueAsNumber: true })}
         />
         {formState.errors.progress && (
-          <p style={{ color: "red" }}>{formState.errors.progress.message}</p>
+          <p className={uiStyles.errorText}>
+            {formState.errors.progress.message}
+          </p>
         )}
       </div>
-      <div>
-        <label>Notes:</label>
-        <textarea placeholder="Notes" {...register("notes")} />
+      <div className={uiStyles.field}>
+        <label className={uiStyles.label}>Notes:</label>
+        <textarea
+          className={uiStyles.textarea}
+          placeholder="Notes"
+          {...register("notes")}
+        />
         {formState.errors.notes && (
-          <p style={{ color: "red" }}>{formState.errors.notes.message}</p>
+          <p className={uiStyles.errorText}>{formState.errors.notes.message}</p>
         )}
       </div>
-      <button type="submit" disabled={formState.isSubmitting}>
-        Add Song
-      </button>
+      <div className={uiStyles.actions}>
+        <button
+          className={uiStyles.button}
+          type="submit"
+          disabled={formState.isSubmitting}
+        >
+          Add Song
+        </button>
+      </div>
     </form>
   );
 }

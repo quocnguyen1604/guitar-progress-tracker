@@ -1,0 +1,52 @@
+.container {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.card {
+  border: 1px solid #2b3442;
+  border-radius: 10px;
+  background: #171e28;
+  padding: 0.9rem;
+}
+
+.title {
+  margin: 0 0 0.25rem;
+  color: #f3f7ff;
+  font-size: 1.05rem;
+}
+
+.subtitle {
+  margin: 0 0 0.75rem;
+  color: #a8b4c8;
+}
+
+.meta {
+  margin: 0;
+  color: #9facbf;
+  font-size: 0.84rem;
+}
+
+.meta + .meta {
+  margin-top: 0.2rem;
+}
+
+.metric {
+  margin: 0.4rem 0 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 0.8rem;
+}
+
+.rpcStop {
+  border-color: #704751;
+  background: #462a30;
+}
+
+.rpcStop:hover {
+  background: #5a353d;
+}

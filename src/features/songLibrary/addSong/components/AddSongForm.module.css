@@ -1,0 +1,19 @@
+.previewWrap {
+  border: 1px dashed #3b4352;
+  border-radius: 10px;
+  background: #111822;
+  padding: 0.75rem;
+}
+
+.previewImage {
+  display: block;
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #333d4f;
+}
+
+.hiddenFileInput {
+  display: none;
+}

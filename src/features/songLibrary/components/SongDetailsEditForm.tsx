@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { songInputSchema } from "../../../shared/validation/songSchema";
 import type { SongInput } from "../../../shared/validation/songSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import detailStyles from "./SongDetails.module.css";
+import uiStyles from "../../../shared/styles/ui.module.css";
 
 type SongDetailsEditFormProps = {
   song: Song;
@@ -43,22 +45,27 @@ export default function SongDetailsEditForm({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label>Title:</label>
-        <input {...register("title")} />
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className={`${uiStyles.form} ${detailStyles.card}`}
+    >
+      <div className={uiStyles.field}>
+        <label className={uiStyles.label}>Title:</label>
+        <input className={uiStyles.input} {...register("title")} />
         {formState.errors.title && (
-          <p style={{ color: "red" }}>{formState.errors.title.message}</p>
+          <p className={uiStyles.errorText}>{formState.errors.title.message}</p>
         )}
       </div>
-      <div>
-        <label>Artist:</label>
-        <input {...register("artist")} />
+      <div className={uiStyles.field}>
+        <label className={uiStyles.label}>Artist:</label>
+        <input className={uiStyles.input} {...register("artist")} />
         {formState.errors.artist && (
-          <p style={{ color: "red" }}>{formState.errors.artist.message}</p>
+          <p className={uiStyles.errorText}>
+            {formState.errors.artist.message}
+          </p>
         )}
       </div>
-      <p>
+      <p className={uiStyles.metaText}>
         Added on:{" "}
         {new Date(song.createdAt).toLocaleString(undefined, {
           year: "numeric",
@@ -70,7 +77,7 @@ export default function SongDetailsEditForm({
           hour12: false,
         })}
       </p>
-      <p>
+      <p className={uiStyles.metaText}>
         Last updated:{" "}
         {new Date(song.updatedAt).toLocaleString(undefined, {
           year: "numeric",
@@ -82,49 +89,64 @@ export default function SongDetailsEditForm({
           hour12: false,
         })}
       </p>
-      <div>
-        <label>Target BPM:</label>
+      <div className={uiStyles.field}>
+        <label className={uiStyles.label}>Target BPM:</label>
         <input
+          className={uiStyles.input}
           type="number"
           {...register("targetBpm", { valueAsNumber: true })}
         />
         {formState.errors.targetBpm && (
-          <p style={{ color: "red" }}>{formState.errors.targetBpm.message}</p>
+          <p className={uiStyles.errorText}>
+            {formState.errors.targetBpm.message}
+          </p>
         )}
       </div>
-      <div>
-        <label>Current Practice BPM:</label>
+      <div className={uiStyles.field}>
+        <label className={uiStyles.label}>Current Practice BPM:</label>
         <input
+          className={uiStyles.input}
           type="number"
           {...register("currentPracticeBpm", { valueAsNumber: true })}
         />
         {formState.errors.currentPracticeBpm && (
-          <p style={{ color: "red" }}>
+          <p className={uiStyles.errorText}>
             {formState.errors.currentPracticeBpm.message}
           </p>
         )}
       </div>
-      <div>
-        <label>Progress:</label>
+      <div className={uiStyles.field}>
+        <label className={uiStyles.label}>Progress:</label>
         <input
+          className={uiStyles.input}
           type="number"
           {...register("progress", { valueAsNumber: true })}
         />
         {formState.errors.progress && (
-          <p style={{ color: "red" }}>{formState.errors.progress.message}</p>
+          <p className={uiStyles.errorText}>
+            {formState.errors.progress.message}
+          </p>
         )}
       </div>
-      <div>
-        <label>Notes:</label>
-        <textarea {...register("notes")} />
+      <div className={uiStyles.field}>
+        <label className={uiStyles.label}>Notes:</label>
+        <textarea className={uiStyles.textarea} {...register("notes")} />
         {formState.errors.notes && (
-          <p style={{ color: "red" }}>{formState.errors.notes.message}</p>
+          <p className={uiStyles.errorText}>{formState.errors.notes.message}</p>
         )}
       </div>
-      <button type="submit">Save Changes</button>
-      <button type="button" onClick={() => setIsEditing(false)}>
-        Cancel
-      </button>
+      <div className={uiStyles.actions}>
+        <button className={uiStyles.button} type="submit">
+          Save Changes
+        </button>
+        <button
+          className={uiStyles.buttonSecondary}
+          type="button"
+          onClick={() => setIsEditing(false)}
+        >
+          Cancel
+        </button>
+      </div>
     </form>
   );
 }

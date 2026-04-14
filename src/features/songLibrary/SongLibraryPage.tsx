@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import SongList from "./components/SongList";
 import SongDetails from "./components/SongDetails";
 import type { Song } from "../../shared/types/song";
+import pageStyles from "./SongLibraryPage.module.css";
+import uiStyles from "../../shared/styles/ui.module.css";
 
 export default function SongLibraryPage() {
   const [songs, setSongs] = useState<Song[]>([]);
@@ -30,19 +32,27 @@ export default function SongLibraryPage() {
   const selectedSong = songs.find((song) => song.id === selectedSongId) || null;
 
   return (
-    <section className="song-library-layout">
-      <aside className="song-list-panel">
-        <h2>Song Library</h2>
-        <button onClick={handleOpenAddSongWindow}>Add Song</button>
-        <SongList songs={songs} onSelectSong={setSelectedSongId} />
+    <section className={pageStyles.layout}>
+      <aside className={pageStyles.panel}>
+        <h2 className={pageStyles.panelTitle}>Song Library</h2>
+        <div className={pageStyles.listActions}>
+          <button className={uiStyles.button} onClick={handleOpenAddSongWindow}>
+            Add Song
+          </button>
+        </div>
+        <SongList
+          songs={songs}
+          onSelectSong={setSelectedSongId}
+          className={pageStyles.songList}
+        />
       </aside>
 
-      <main className="song-detail-panel">
-        <h2>Song Details</h2>
+      <main className={pageStyles.panel}>
+        <h2 className={pageStyles.panelTitle}>Song Details</h2>
         {selectedSong ? (
           <SongDetails song={selectedSong} />
         ) : (
-          <p>Select a song.</p>
+          <p className={pageStyles.emptyState}>Select a song.</p>
         )}
       </main>
     </section>

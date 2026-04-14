@@ -4,11 +4,16 @@ import type { Song } from "../../../shared/types/song";
 type SongListProps = {
   songs: Song[];
   onSelectSong: (song: string) => void;
+  className?: string;
 };
 
-export default function SongList({ songs, onSelectSong }: SongListProps) {
+export default function SongList({
+  songs,
+  onSelectSong,
+  className,
+}: SongListProps) {
   return (
-    <div>
+    <div className={className}>
       {songs.map((song) => (
         <SongListItem
           key={song.id}
