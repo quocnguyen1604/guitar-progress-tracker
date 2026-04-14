@@ -206,12 +206,12 @@ export async function setDiscordSongRPCActivity(songId: string) {
           large_text: "Guitar Progress Tracker",
           small_text: "Practice Session",
         },
-        // buttons: [
-        //   {
-        //     label: "Want this?",
-        //     url: "https://github.com/quocnguyen1604/guitar-progress-tracker",
-        //   },
-        // ],
+        buttons: [
+          {
+            label: "Want this?",
+            url: "https://github.com/quocnguyen1604/guitar-progress-tracker",
+          },
+        ],
       },
     },
   };

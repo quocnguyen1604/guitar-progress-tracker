@@ -9,8 +9,8 @@ const songApi = {
   getAllSongs: () => ipcRenderer.invoke("songs:get-all-songs"),
   addSong: (songData, thumbnailUpload) =>
     ipcRenderer.invoke("songs:add", songData, thumbnailUpload),
-  updateSong: (id, songData) =>
-    ipcRenderer.invoke("songs:update", id, songData),
+  updateSong: (id, songData, thumbnailUpload) =>
+    ipcRenderer.invoke("songs:update", id, songData, thumbnailUpload),
   deleteSong: (id) => ipcRenderer.invoke("songs:delete", id),
   onSongListUpdated: (callback) => {
     const listener = () => callback();
@@ -18,9 +18,10 @@ const songApi = {
     const unsubscribe = () => {
       ipcRenderer.removeListener("songs:song-list-updated", listener);
     };
-
     return unsubscribe;
   },
+  getSongThumbnail: (thumbnailPath) =>
+    ipcRenderer.invoke("songs:get-thumbnail", thumbnailPath),
 };
 
 const discordApi = {

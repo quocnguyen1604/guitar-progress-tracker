@@ -5,6 +5,9 @@ import {
   songInputSchema,
   updateSongInputSchema,
 } from "../../src/shared/validation/songSchema.js";
+import path from "node:path";
+import { app } from "electron";
+import { mkdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 
 type SongRow = {
   id: string;
@@ -21,6 +24,14 @@ type SongRow = {
   notes: string | null;
   created_at: number;
   updated_at: number;
+};
+
+type mimeType = "image/png" | "image/jpeg";
+
+type ThumbnailUploadInput = {
+  bytes: Uint8Array;
+  mimeType: mimeType;
+  extension: "png" | "jpg";
 };
 
 function rowToSong(row: SongRow): Song {
@@ -99,7 +110,15 @@ export function getAllSongs(): Song[] {
 
 export function deleteSong(id: string): boolean {
   const db = getDatabase();
+  const existingRow = db.prepare("SELECT * FROM songs WHERE id = ?").get(id) as
+    | SongRow
+    | undefined;
+  const existingSong = existingRow ? rowToSong(existingRow) : null;
+
   const result = db.prepare("DELETE FROM songs WHERE id = ?").run(id);
+  if (result.changes > 0 && existingSong?.thumbnailPath) {
+    deleteThumbnailFile(existingSong.thumbnailPath);
+  }
   return result.changes > 0;
 }
 
@@ -114,6 +133,7 @@ export function getSongById(id: string): Song | null {
 export function updateSong(
   id: string,
   updates: Partial<AddSongInput>,
+  thumbnailUpload?: ThumbnailUploadInput,
 ): boolean {
   const parsed = updateSongInputSchema.safeParse(updates);
 
@@ -138,6 +158,17 @@ export function updateSong(
     ...data,
     updatedAt: Date.now(),
   };
+
+  if (thumbnailUpload) {
+    try {
+      const thumbnailFile = saveThumbnailFile(id, thumbnailUpload);
+      updatedSong.thumbnailPath = thumbnailFile.filePath;
+    } catch (error) {
+      console.error("Failed to save thumbnail file during song update", error);
+      return false;
+    }
+  }
+
   const result = db
     .prepare(
       `
@@ -163,5 +194,56 @@ export function updateSong(
       updatedSong.updatedAt,
       id,
     ]);
+
   return result.changes > 0;
+}
+
+export function saveThumbnailFile(
+  songId: string,
+  thumbnailUpload: ThumbnailUploadInput,
+): { filePath: string } {
+  const dataDirectory = path.join(
+    app.getPath("userData"),
+    "guitar-progress-tracker",
+  );
+  const thumbnailsDirectory = path.join(dataDirectory, "thumbnails");
+  mkdirSync(thumbnailsDirectory, { recursive: true });
+
+  const fileName = `${songId}.${thumbnailUpload.extension}`;
+  const filePath = path.join(thumbnailsDirectory, fileName);
+  writeFileSync(filePath, Buffer.from(thumbnailUpload.bytes));
+
+  return { filePath };
+}
+
+export function getThumbnailFile(
+  thumbnailPath: string | undefined,
+): { bytes: Uint8Array; mimeType: string } | null {
+  if (!thumbnailPath) {
+    return null;
+  }
+  try {
+    const thumbnailFile = readFileSync(thumbnailPath);
+    const ext = path.extname(thumbnailPath).toLowerCase();
+    const mimeType = ext === ".png" ? "image/png" : "image/jpeg";
+    const thumbnailBytes = new Uint8Array(thumbnailFile);
+    return {
+      bytes: thumbnailBytes,
+      mimeType: mimeType,
+    };
+  } catch (error) {
+    console.error("Failed to decode thumbnail file", error);
+    return null;
+  }
+}
+
+export function deleteThumbnailFile(thumbnailPath: string | undefined): void {
+  if (!thumbnailPath) {
+    return;
+  }
+  try {
+    unlinkSync(thumbnailPath);
+  } catch (error) {
+    console.error("Failed to delete thumbnail file", error);
+  }
 }

@@ -1,7 +1,11 @@
 {
   "name": "guitar-progress-tracker",
-  "private": true,
-  "version": "0.0.0",
+  "description": "A desktop app for tracking guitar practice progress with Discord Rich Presence.",
+  "private": false,
+  "version": "0.1.0",
+  "author": "Hans.005",
+  "license": "MIT",
+  "homepage": "https://github.com/quocn/guitar-progress-tracker",
   "type": "module",
   "main": "dist-electron/electron/main.js",
   "scripts": {
@@ -20,7 +24,47 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "pack:win": "npm run build:app && electron-builder --win --dir",
+    "dist:win": "npm run build:app && electron-builder --win nsis",
+    "release:check": "npm run lint && npm run test && npm run build:app"
+  },
+  "build": {
+    "appId": "com.quocn.guitarprogresstracker",
+    "productName": "Guitar Progress Tracker",
+    "copyright": "Copyright (c) 2026 Hans.005",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "electron/preload.cjs",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "node_modules/better-sqlite3/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}-Setup-${version}.${ext}",
+      "legalTrademarks": "Guitar Progress Tracker"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "uninstallDisplayName": "Guitar Progress Tracker",
+      "license": "build/installer-license.txt"
+    }
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -42,6 +86,7 @@
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
     "electron": "^41.2.0",
+    "electron-builder": "^26.8.1",
     "electronmon": "^2.0.4",
     "eslint": "^9.39.4",
     "eslint-plugin-react-hooks": "^7.0.1",

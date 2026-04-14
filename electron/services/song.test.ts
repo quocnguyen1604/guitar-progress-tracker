@@ -3,7 +3,22 @@ import path from "node:path";
 import { describe, it, expect, afterAll, beforeAll } from "vitest";
 import { createSong, getAllSongs, updateSong, deleteSong } from "./song.js";
 import { initializeDatabase, resetDatabaseForTests } from "./db.js";
-import { get } from "node:http";
+import type { AddSongInput } from "../../src/shared/types/song.js";
+import type { UpdateSongInput } from "../../src/shared/validation/songSchema.js";
+
+const invalidCreate = {
+  title: "",
+  targetBpm: -120,
+  currentPracticeBpm: 0,
+  progress: 150,
+} as unknown as AddSongInput;
+
+const invalidUpdate = {
+  title: "",
+  targetBpm: -190,
+  currentPracticeBpm: -110,
+  progress: 150,
+} as unknown as UpdateSongInput;
 
 const TEST_DB_ROOT = path.join(process.cwd(), ".test-data");
 
@@ -32,12 +47,7 @@ describe("Song Service", () => {
   });
 
   it("should not create a song with invalid input", () => {
-    const [ok] = createSong({
-      title: "",
-      targetBpm: -120,
-      currentPracticeBpm: 0,
-      progress: 150,
-    } as any);
+    const [ok] = createSong(invalidCreate);
     expect(ok).toBe(false);
     expect(getAllSongs()).toHaveLength(1);
   });
@@ -58,12 +68,7 @@ describe("Song Service", () => {
 
   it("should not update a song with invalid input", () => {
     const songId = getAllSongs()[0].id;
-    const result = updateSong(songId, {
-      title: "",
-      targetBpm: -190,
-      currentPracticeBpm: -110,
-      progress: 150,
-    } as any);
+    const result = updateSong(songId, invalidUpdate);
     expect(result).toBe(false);
     expect(getAllSongs()).toHaveLength(1);
     expect(getAllSongs()[0].title).toBe("Awakening (Updated)");

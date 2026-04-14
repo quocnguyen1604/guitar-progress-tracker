@@ -26,7 +26,7 @@ export default function DiscordSettingPages() {
       }
     };
     fetchDiscordSettings();
-  }, []);
+  }, [setValue]);
   const onSubmit = async (data: DiscordSettingsInput) => {
     const response = await window.discordApi.saveSettings(data);
     if (response) {
