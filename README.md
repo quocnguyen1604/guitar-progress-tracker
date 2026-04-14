@@ -54,6 +54,10 @@ If the app opens with a blank window:
 
 Development setup, scripts, packaging flow, and release steps are documented in [docs/DEVELOPMENT.md](docs/DEV.md).
 
+## Have a few words?
+
+Reach me on Discord: 0._x.
+
 ## License
 
 This project is licensed under MIT. See [LICENSE](LICENSE).
