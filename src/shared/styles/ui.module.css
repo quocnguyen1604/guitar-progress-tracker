@@ -1,0 +1,85 @@
+.form {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.label {
+  font-size: 0.85rem;
+  color: #aeb6c6;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  border: 1px solid #323949;
+  border-radius: 8px;
+  background: #0f141d;
+  color: #e8ecf4;
+  padding: 0.55rem 0.65rem;
+}
+
+.textarea {
+  min-height: 6rem;
+  resize: vertical;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #5a738f;
+}
+
+.errorText {
+  margin: 0;
+  color: #ef9a9a;
+  font-size: 0.8rem;
+}
+
+.button {
+  border: 1px solid #3a4253;
+  border-radius: 8px;
+  background: #252d3a;
+  color: #ecf0f7;
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+}
+
+.button:hover:not(:disabled) {
+  background: #2f3847;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.buttonSecondary {
+  border: 1px solid #3a4253;
+  border-radius: 8px;
+  background: transparent;
+  color: #d8dfea;
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+}
+
+.buttonSecondary:hover {
+  background: #1b212c;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 0.4rem;
+}
+
+.metaText {
+  margin: 0;
+  color: #9ea9bc;
+  font-size: 0.84rem;
+}

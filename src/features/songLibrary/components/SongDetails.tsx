@@ -2,6 +2,8 @@ import type { Song } from "../../../shared/types/song";
 import SongDetailsView from "./songDetailsView";
 import SongDetailsEditForm from "./SongDetailsEditForm";
 import { useState, useEffect } from "react";
+import styles from "./SongDetails.module.css";
+import uiStyles from "../../../shared/styles/ui.module.css";
 
 type SongDetailsProp = {
   song: Song;
@@ -26,16 +28,26 @@ export default function SongDetails({ song }: SongDetailsProp) {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       {isEditing ? (
         <SongDetailsEditForm song={song} setIsEditing={setIsEditing} />
       ) : (
         <SongDetailsView song={song} setIsEditing={setIsEditing} />
       )}
       {isRPCActive ? (
-        <button onClick={() => stopDiscordSongRPC()}>Stop Discord RPC</button>
+        <button
+          className={`${uiStyles.button} ${styles.rpcStop}`}
+          onClick={() => stopDiscordSongRPC()}
+        >
+          Stop Discord RPC
+        </button>
       ) : (
-        <button onClick={() => startDiscordSongRPC()}>Start Discord RPC</button>
+        <button
+          className={uiStyles.button}
+          onClick={() => startDiscordSongRPC()}
+        >
+          Start Discord RPC
+        </button>
       )}
     </div>
   );

@@ -1,0 +1,14 @@
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  border: 1px solid #2b323f;
+  border-radius: 10px;
+  background: #131922;
+  padding: 0.9rem;
+}
+
+.title {
+  margin: 0 0 0.85rem;
+  color: #f3f6fb;
+  font-size: 1.05rem;
+}
