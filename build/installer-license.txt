@@ -1,0 +1,7 @@
+Guitar Progress Tracker
+Copyright (c) 2026 Hans.005
+
+This installer includes Guitar Progress Tracker and related project files.
+
+By installing and using this software, you agree to the terms of the MIT License.
+See the LICENSE file distributed with this application for the full license text.

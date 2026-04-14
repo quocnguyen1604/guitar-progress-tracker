@@ -17,15 +17,16 @@ export const registerDiscordIPC = () => {
   });
 
   ipcMain.handle("discord:save-discord-settings", async (event, settings) => {
+    void event;
     return saveDiscordSettings(settings);
   });
 
-  ipcMain.handle("discord:test-discord-rpc", async (event) => {
+  ipcMain.handle("discord:test-discord-rpc", async () => {
     await connectDiscordRPC();
     return getDiscordRPCStatus();
   });
 
-  ipcMain.handle("discord:test-discord-rpc-disconnect", async (event) => {
+  ipcMain.handle("discord:test-discord-rpc-disconnect", async () => {
     disconnectDiscordRPC();
     return getDiscordRPCStatus();
   });
@@ -33,11 +34,12 @@ export const registerDiscordIPC = () => {
   ipcMain.handle(
     "discord:start-discord-song-rpc",
     async (event, songId: string) => {
+      void event;
       await setDiscordSongRPCActivity(songId);
     },
   );
 
-  ipcMain.handle("discord:stop-discord-song-rpc", async (event) => {
+  ipcMain.handle("discord:stop-discord-song-rpc", async () => {
     await stopDiscordSongRPC();
   });
 };

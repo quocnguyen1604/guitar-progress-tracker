@@ -50,7 +50,7 @@ export default function SongLibraryPage() {
       <main className={pageStyles.panel}>
         <h2 className={pageStyles.panelTitle}>Song Details</h2>
         {selectedSong ? (
-          <SongDetails song={selectedSong} />
+          <SongDetails key={selectedSong.id} song={selectedSong} />
         ) : (
           <p className={pageStyles.emptyState}>Select a song.</p>
         )}

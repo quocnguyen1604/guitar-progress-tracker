@@ -26,9 +26,17 @@ declare global {
         thumbnailUpload?: ThumbnailUploadInput,
       ) => Promise<[boolean, string]>;
       getAllSongs: () => Promise<Song[]>;
-      updateSong: (id: string, songData: UpdateSongInput) => Promise<boolean>;
+      updateSong: (
+        id: string,
+        songData: UpdateSongInput,
+        thumbnailUpload?: ThumbnailUploadInput,
+      ) => Promise<boolean>;
       deleteSong: (id: string) => Promise<boolean>;
       onSongListUpdated: (callback: () => void) => () => void;
+      getSongThumbnail: (thumbnailPath: string) => Promise<{
+        bytes: Uint8Array;
+        mimeType: string;
+      } | null>;
     };
     discordApi: {
       saveSettings: (settings: {

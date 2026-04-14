@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 dist-electron/
+release/
+build/*
+!build/installer-license.txt
 guitar-progress-tracker/
 .test-data/
 coverage/

@@ -10,6 +10,51 @@
   padding: 0.9rem;
 }
 
+.detailsLayout {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: start;
+}
+
+.infoBlock {
+  min-width: 0;
+}
+
+.thumbnailBlock {
+  width: 360px;
+}
+
+.thumbnail {
+  display: block;
+  width: 360px;
+  height: 360px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #324054;
+}
+
+.clickableThumbnail {
+  cursor: pointer;
+}
+
+.thumbnailPlaceholder {
+  width: 360px;
+  height: 360px;
+  border-radius: 10px;
+  border: 1px dashed #46526b;
+  color: #a4b1c7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.75rem;
+}
+
+.hiddenFileInput {
+  display: none;
+}
+
 .title {
   margin: 0 0 0.25rem;
   color: #f3f7ff;
@@ -49,4 +94,19 @@
 
 .rpcStop:hover {
   background: #5a353d;
+}
+
+@media (max-width: 700px) {
+  .detailsLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .thumbnailBlock {
+    width: 100%;
+  }
+
+  .thumbnail,
+  .thumbnailPlaceholder {
+    width: 100%;
+  }
 }

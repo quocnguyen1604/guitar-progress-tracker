@@ -12,6 +12,18 @@ const __dirname = path.dirname(__filename);
 let mainWindow: BrowserWindow | null = null;
 let discordSettingsWindow: BrowserWindow | null = null;
 
+async function loadRendererRoute(win: BrowserWindow, route: string) {
+  const devServerUrl = process.env.VITE_DEV_SERVER_URL;
+  if (devServerUrl) {
+    await win.loadURL(devServerUrl + "#/" + route);
+    win.webContents.openDevTools({ mode: "detach" });
+    return;
+  }
+  await win.loadFile(path.join(__dirname, "../../dist/index.html"), {
+    hash: "/" + route,
+  });
+}
+
 async function openDiscordSettingsWindow() {
   if (discordSettingsWindow && !discordSettingsWindow.isDestroyed()) {
     discordSettingsWindow.focus();
@@ -35,12 +47,7 @@ async function openDiscordSettingsWindow() {
     discordSettingsWindow = null;
   });
 
-  const devServerUrl = process.env.VITE_DEV_SERVER_URL;
-  if (devServerUrl) {
-    await discordSettingsWindow.loadURL(`${devServerUrl}#/discord-settings`);
-    discordSettingsWindow.webContents.openDevTools({ mode: "detach" });
-    return;
-  }
+  await loadRendererRoute(discordSettingsWindow, "discord-settings");
 }
 
 function createMainWindow() {
@@ -119,12 +126,7 @@ app.whenReady().then(() => {
       },
     });
 
-    const devServerUrl = process.env.VITE_DEV_SERVER_URL;
-    if (devServerUrl) {
-      await addSongWindow.loadURL(`${devServerUrl}#/add-song`);
-      addSongWindow.webContents.openDevTools({ mode: "detach" });
-      return;
-    }
+    await loadRendererRoute(addSongWindow, "add-song");
   });
 
   createMainWindow();
