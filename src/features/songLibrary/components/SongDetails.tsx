@@ -9,9 +9,21 @@ type SongDetailsProp = {
 
 export default function SongDetails({ song }: SongDetailsProp) {
   const [isEditing, setIsEditing] = useState(false);
+  const [isRPCActive, setIsRPCActive] = useState(false);
+
   useEffect(() => {
     setIsEditing(false);
   }, [song.id]);
+
+  const startDiscordSongRPC = async () => {
+    await window.discordApi.startDiscordSongRPC(song.id);
+    setIsRPCActive(true);
+  };
+
+  const stopDiscordSongRPC = async () => {
+    await window.discordApi.stopDiscordSongRPC();
+    setIsRPCActive(false);
+  };
 
   return (
     <div>
@@ -19,6 +31,11 @@ export default function SongDetails({ song }: SongDetailsProp) {
         <SongDetailsEditForm song={song} setIsEditing={setIsEditing} />
       ) : (
         <SongDetailsView song={song} setIsEditing={setIsEditing} />
+      )}
+      {isRPCActive ? (
+        <button onClick={() => stopDiscordSongRPC()}>Stop Discord RPC</button>
+      ) : (
+        <button onClick={() => startDiscordSongRPC()}>Start Discord RPC</button>
       )}
     </div>
   );

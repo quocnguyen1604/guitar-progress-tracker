@@ -30,6 +30,27 @@ declare global {
       deleteSong: (id: string) => Promise<boolean>;
       onSongListUpdated: (callback: () => void) => () => void;
     };
+    discordApi: {
+      saveSettings: (settings: {
+        applicationId: string;
+        iconUpdateInterval: number;
+        botToken?: string;
+      }) => Promise<boolean>;
+      loadSettings: () => Promise<{
+        applicationId: string;
+        iconUpdateInterval: number;
+      } | null>;
+      testDiscordRPC: () => Promise<{
+        connected: boolean;
+        clientId: string | null;
+      }>;
+      testDiscordRPCDisconnect: () => Promise<{
+        connected: boolean;
+        clientId: string | null;
+      }>;
+      startDiscordSongRPC: (songId: string) => Promise<void>;
+      stopDiscordSongRPC: () => Promise<void>;
+    };
   }
 }
 

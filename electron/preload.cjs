@@ -23,5 +23,18 @@ const songApi = {
   },
 };
 
+const discordApi = {
+  saveSettings: (settings) =>
+    ipcRenderer.invoke("discord:save-discord-settings", settings),
+  loadSettings: () => ipcRenderer.invoke("discord:load-discord-settings"),
+  testDiscordRPC: () => ipcRenderer.invoke("discord:test-discord-rpc"),
+  testDiscordRPCDisconnect: () =>
+    ipcRenderer.invoke("discord:test-discord-rpc-disconnect"),
+  startDiscordSongRPC: (songId) =>
+    ipcRenderer.invoke("discord:start-discord-song-rpc", songId),
+  stopDiscordSongRPC: () => ipcRenderer.invoke("discord:stop-discord-song-rpc"),
+};
+
 contextBridge.exposeInMainWorld("appApi", api);
 contextBridge.exposeInMainWorld("songApi", songApi);
+contextBridge.exposeInMainWorld("discordApi", discordApi);

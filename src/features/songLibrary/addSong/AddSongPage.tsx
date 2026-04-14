@@ -1,4 +1,4 @@
-import AddSongForm from "./components/addSongForm";
+import AddSongForm from "./components/AddSongForm";
 
 export default function AddSongPage() {
   return (

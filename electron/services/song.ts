@@ -103,6 +103,14 @@ export function deleteSong(id: string): boolean {
   return result.changes > 0;
 }
 
+export function getSongById(id: string): Song | null {
+  const db = getDatabase();
+  const row = db.prepare("SELECT * FROM songs WHERE id = ?").get(id) as
+    | SongRow
+    | undefined;
+  return row ? rowToSong(row) : null;
+}
+
 export function updateSong(
   id: string,
   updates: Partial<AddSongInput>,
