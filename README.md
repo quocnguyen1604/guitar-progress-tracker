@@ -54,9 +54,9 @@ If the app opens with a blank window:
 
 Development setup, scripts, packaging flow, and release steps are documented in [docs/DEVELOPMENT.md](docs/DEV.md).
 
-## Have a few words?
+## Have some words?
 
-Reach me on Discord: 0._x.
+Reach me on Discord: illseeyouinthenextlife
 
 ## License
 
