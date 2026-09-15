@@ -50,14 +50,3 @@ If the app opens with a blank window:
 2. Reinstall over the existing version.
 3. If issue persists, open an issue with your app version and steps to reproduce.
 
-## For Developers
-
-Development setup, scripts, packaging flow, and release steps are documented in [docs/DEVELOPMENT.md](docs/DEV.md).
-
-## Have some words?
-
-Reach me on Discord: illseeyouinthenextlife
-
-## License
-
-This project is licensed under MIT. See [LICENSE](LICENSE).
